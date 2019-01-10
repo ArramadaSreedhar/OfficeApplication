@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script>
+
+
+var app=angular.module("officeApp",[]);
+
+app.service('officeService',function($http){
+	this.getData=function(){
+		alert("Get data");
+		return $http({
+			method: 'GET',
+			url: 'http://localhost:9999/Office/getEmployee'
+		});
+	}
+});
+
+app.controller('officeCntrl',function($scope,officeService){
+	$scope.saveData=function(){
+		alert($scope.name);
+			officeService.getData().then(function(response){
+				$scope.data=response.data;
+			})
+		}		
+		});
+</script>
+
+</head>
+<body>
+<div ng-app="officeApp" ng-controller="officeCntrl">
+Name: <input type="text" ng-model="name"/>
+<input type="button" ng-click="saveData()" value="Save Data"/>
+<table>
+<tr ng-repeat="x in data">
+<td>{{x.empNo}}</td>
+<td>{{x.empName}}</td>
+</tr>
+</table>
+
+</div>
+</body>
+</html>
